@@ -21,6 +21,14 @@ const ListContainer = () => {
         fetchData();
         },[]);
 
+        if (isLoading) {
+            return <>Loading...</>
+        }
+
+        if (error) {
+            return <>Error fetching data</>
+        }
+        
         return (
             <>
             <h1>hello world</h1>
