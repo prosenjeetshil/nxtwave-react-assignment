@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ClipLoader } from "react-spinners";
 
 const ListContainer = () => {
   const [listData, setListData] = useState({ lists: [] });
@@ -28,7 +29,18 @@ const ListContainer = () => {
   }, []);
 
   if (isLoading) {
-    return <>Loading...</>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <ClipLoader size={30} color={"#123abc"} loading={isLoading} />
+      </div>
+    );
   }
 
   if (error) {
