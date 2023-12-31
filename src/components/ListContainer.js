@@ -226,7 +226,7 @@ const ListContainer = () => {
 
         {/* List Number 3 */}
         {list3Items.length > 0 && (
-          <div style={{ flexBasis: '300px', minWidth: '300px', border: '1px solid #ccc', padding: '10px', background: '#B4D4FF' }}>
+          <div style={{ flexBasis: '300px', minWidth: '300px', border: '1px solid #ccc', padding: '10px', background: '#B4D4FF', borderRadius: '10px' }}>
             <h3>List Number 3 ({list3Items.length})</h3>
             <input
               type="checkbox"
@@ -235,7 +235,7 @@ const ListContainer = () => {
             />
             <div style={{ overflowY: 'auto', maxHeight: '500px' }}>
             {list3Items.map((item, index) => (
-              <div key={index} style={{ border: '1px solid', padding: '10px', background: '#EEF5FF' }}>
+              <div key={index} style={{ border: '1px solid', padding: '10px', background: '#EEF5FF', borderRadius: '10px' }}>
                 <p>Name: {item.name}</p>
                 <p>Description: {item.description}</p>
                 {/* {isCreatingList && (
