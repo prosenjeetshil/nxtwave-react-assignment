@@ -98,8 +98,14 @@ const ListContainer = () => {
     setIsCreatingList(false);
     setNewListItems([]);
     setSelectedLists([]);
-    setError(null);
+    setErrorMessage("");
+    setList3Items([]); // Reset list3Items to an empty array
+    // Reset the state to the initial state by fetching the data again
+    setIsLoading(true);
+    fetchData();
   };
+  
+  
 
   // update button functionality
   const handleUpdateList = () => {
@@ -147,62 +153,65 @@ const ListContainer = () => {
 
   return (
     <div>
-      <h2>List Containers</h2>
-
-      <button onClick={handleCreateNewList}>Create a new list</button>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', overflow:"hidden" , height: "100%"}}>
+      <h2 >List Creation</h2>
+      <button className="btn btn-primary mb-3" onClick={handleCreateNewList}>Create a new list</button>
       {/* Display the error message */}
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-        {/* List Number 1 */}
-        <div>
-          <h3>List Number 1</h3>
-          <input
-            type="checkbox"
-            checked={selectedLists.includes(1)}
-            onChange={() => handleListCheckboxChange(1)}
-          />
+      </div>
+      
+      {/* List Number 1 */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', overflowY: 'auto', maxHeight: '500px' }}>
+      <div style={{ flexBasis: '300px', minWidth: '300px', border: '1px solid #ccc', padding: '10px', background: '#B4D4FF', borderRadius: '10px' }}>
+        <h3>List Number 1 ({listNumber1Items.length})</h3>
+        <input
+          type="checkbox"
+          checked={selectedLists.includes(1)}
+          onChange={() => handleListCheckboxChange(1)}
+        />
+        <div style={{ overflowY: 'auto', maxHeight: '500px' }}>
           {listNumber1Items.map((item, index) => (
-            <div key={index} style={{ border: 'none', padding: '10px', background: '#f0f0f0' }}>
+            <div style={{ border: '1px solid', padding: '10px', background: '#EEF5FF' , position: 'relative', borderRadius: '10px'}} key={index}>
               <p>Name: {item.name}</p>
               <p>Description: {item.description}</p>
               {isCreatingList && (
-              <img onClick={() => handleMoveListItemToList3(item)} src={require('../images/arrow-right.png')} alt="arrow" height={20} style={{ cursor: 'pointer' }} />
+                <img onClick={() => handleMoveListItemToList3(item)} src={require('../images/arrow-right.png')} alt="arrow" height={20} style={{position: 'absolute', cursor: 'pointer', top:'75%', right:'10px' }} />
               )}
             </div>
           ))}
         </div>
+      </div>
 
         {/* List Creation */}
         {isCreatingList && (
-          <div>
-            <h2>List Creation</h2>
+          <div style={{ flexBasis: '300px', minWidth: '300px', border: '1px solid #ccc', padding: '10px', background: '#B4D4FF', borderRadius: '10px' }}>
+            <h2>List Creation ({list3Items.length}) </h2>
+            <div style={{ overflowY: 'auto', maxHeight: '500px' }}>
             {list3Items.map((item, index) => (
-              <div key={index} style={{ border: 'none', padding: '10px', background: '#f0f0f0' }}>
+              <div key={index} style={{ border: '1px solid', padding: '10px', background: '#EEF5FF', position:'relative', borderRadius: '10px' }}>
                 <p>Name: {item.name}</p>
                 <p>Description: {item.description}</p>
                 
                   <img onClick={() => handleMoveListItem(item, item.list_number, 1)} src={require('../images/arrow.png')} alt="arrow" height={20} />
                 
-                  <img onClick={() => handleMoveListItem(item, item.list_number, 2)} src={require('../images/arrow-right.png')} alt="arrow" height={20} />
+                  <img onClick={() => handleMoveListItem(item, item.list_number, 2)} src={require('../images/arrow-right.png')} alt="arrow" height={20} style={{position: 'absolute', cursor: 'pointer', top:'75%', right:'10px' }} />
     
               </div>
             ))}
-            <button onClick={handleCancelListCreation}>Cancel</button>
-            <button onClick={handleUpdateList}>Update</button>
-          </div>
+            </div></div>
         )}
 
         {/* List Number 2 */}
-        <div>
-          <h3>List Number 2</h3>
+        <div style={{ flexBasis: '300px', minWidth: '300px', border: '1px solid #ccc', padding: '10px', background: '#B4D4FF', borderRadius: '10px' }}>
+          <h3>List Number 2 ({listNumber2Items.length})</h3>
           <input
             type="checkbox"
             checked={selectedLists.includes(2)}
             onChange={() => handleListCheckboxChange(2)}
           />
+          <div style={{ overflowY: 'auto', maxHeight: '500px' }}>
           {listNumber2Items.map((item, index) => (
-            <div key={index} style={{ border: 'none', padding: '10px', background: '#f0f0f0' }}>
+            <div key={index} style={{ border: '1px solid', padding: '10px', background: '#EEF5FF', borderRadius: '10px' }}>
               <p>Name: {item.name}</p>
               <p>Description: {item.description}</p>
               {isCreatingList && (
@@ -211,19 +220,22 @@ const ListContainer = () => {
               )}
             </div>
           ))}
+          </div>
         </div>
+        
 
         {/* List Number 3 */}
         {list3Items.length > 0 && (
-          <div>
-            <h3>List Number 3</h3>
+          <div style={{ flexBasis: '300px', minWidth: '300px', border: '1px solid #ccc', padding: '10px', background: '#B4D4FF' }}>
+            <h3>List Number 3 ({list3Items.length})</h3>
             <input
               type="checkbox"
               checked={selectedLists.includes(3)}
               onChange={() => handleListCheckboxChange()}
             />
+            <div style={{ overflowY: 'auto', maxHeight: '500px' }}>
             {list3Items.map((item, index) => (
-              <div key={index} style={{ border: 'none', padding: '10px', background: '#f0f0f0' }}>
+              <div key={index} style={{ border: '1px solid', padding: '10px', background: '#EEF5FF' }}>
                 <p>Name: {item.name}</p>
                 <p>Description: {item.description}</p>
                 {/* {isCreatingList && (
@@ -231,9 +243,18 @@ const ListContainer = () => {
                 )} */}
               </div>
             ))}
+            </div>
           </div>
         )}
       </div>
+
+      {isCreatingList && (
+        <div style={{ position: 'fixed', bottom: 0, width: '100%', textAlign: 'center', marginBottom: '50px' }}>
+        <button className="btn btn-light" onClick={handleCancelListCreation} style={{ marginRight: '10px' }}>Cancel</button>
+        <button className="btn btn-primary" onClick={handleUpdateList}>Update</button>
+        </div>
+      )}
+
 
       <div style={{ clear: 'both' }}></div>
     </div>
