@@ -28,6 +28,13 @@ const ListContainer = () => {
     fetchData();
   }, []);
 
+  const handleTryAgain = () => {
+    setIsLoading(true);
+    setError(null);
+    fetchData(); // Retry the HTTP GET request
+  };
+
+  // if loading show the loading spinner using cliploader 
   if (isLoading) {
     return (
       <div
@@ -43,8 +50,18 @@ const ListContainer = () => {
     );
   }
 
+  // if error occured while fetching data then show an error with a try again button
   if (error) {
-    return <>Error fetching data</>;
+    return (
+      <div>
+        <img
+          src=".../public/error-image.jpg"
+          alt="Failure View"
+        />
+        <p>Something went wrong. Please try again</p>
+        <button onClick={handleTryAgain}>Try Again</button>
+      </div>
+    );
   }
 
   const listNumber1Items = listData.lists.filter((item) => item.list_number === 1);
