@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { fetchListData } from "../apiServices";
+import axios from "axios";
 
 const ListContainer = () => {
   const [listData, setListData] = useState({ lists: [] });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchListData();
+  const fetchData = async () => {
+    try {
+      setTimeout(async () => {
+        const response = await axios.get(
+          "https://apis.ccbp.in/list-creation/lists"
+        );
+        const data = response.data;
         console.log("Fetched data:", data);
         setListData(data || { lists: [] });
         setIsLoading(false);
-      } catch (error) {
-        setError(error);
-        setIsLoading(false);
-      }
-    };
+      }, 1000);
+    } catch (error) {
+      setError(error);
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
